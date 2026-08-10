@@ -1,0 +1,51 @@
+# Laravel environment
+.env
+.env.*
+!.env.example
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Laravel generated files
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# Keep required storage directories
+!/storage/logs/.gitignore
+!/storage/framework/cache/.gitignore
+!/storage/framework/sessions/.gitignore
+!/storage/framework/views/.gitignore
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/
+
+# Frontend build files
+/public/build
+/public/mix-manifest.json
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.log
+*.tmp
+
+# Laravel Herd
+.herd/
+
+# Local auth files
+auth.json
