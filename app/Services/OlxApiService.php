@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 class OlxApiService
@@ -20,7 +23,7 @@ class OlxApiService
             'olx.categories',
             now()->addDay(),
             function () {
-                $response = Http::get(
+                $response = $this->client()->get(
                     "{$this->baseUrl}/categories"
                 );
 
@@ -37,7 +40,7 @@ class OlxApiService
             "olx.category_fields.{$externalCategoryId}",
             now()->addDay(),
             function () use ($externalCategoryId) {
-                $response = Http::get(
+                $response = $this->client()->get(
                     "{$this->baseUrl}/categoryFields",
                     [
                         'categoryExternalIDs' => $externalCategoryId,
@@ -54,5 +57,19 @@ class OlxApiService
                 return $response->json();
             }
         );
+    }
+
+    /**
+     * OLX is an external dependency: bound every call with a timeout and retry
+     * transient failures (connection errors and 5xx) a couple of times before
+     * the caller's ->throw() surfaces the error.
+     */
+    private function client(): PendingRequest
+    {
+        return Http::acceptJson()
+            ->timeout(15)
+            ->connectTimeout(5)
+            ->retry(2, 500, fn ($exception) => $exception instanceof ConnectionException
+                || ($exception instanceof RequestException && $exception->response->serverError()), throw: false);
     }
 }
