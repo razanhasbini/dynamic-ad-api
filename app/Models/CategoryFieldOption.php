@@ -25,16 +25,19 @@ class CategoryFieldOption extends Model
         ];
     }
 
+    /** @return BelongsTo<CategoryField, $this> */
     public function field(): BelongsTo
     {
         return $this->belongsTo(CategoryField::class, 'category_field_id');
     }
 
+    /** @return BelongsTo<CategoryFieldOption, $this> */
     public function parentOption(): BelongsTo
     {
         return $this->belongsTo(CategoryFieldOption::class, 'parent_option_id');
     }
 
+    /** @return HasMany<CategoryFieldOption, $this> */
     public function childOptions(): HasMany
     {
         return $this->hasMany(CategoryFieldOption::class, 'parent_option_id');

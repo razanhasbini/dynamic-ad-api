@@ -39,26 +39,31 @@ class CategoryField extends Model
         ];
     }
 
+    /** @return BelongsTo<Category, $this> */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /** @return BelongsTo<CategoryField, $this> */
     public function parentField(): BelongsTo
     {
         return $this->belongsTo(CategoryField::class, 'parent_field_id');
     }
 
+    /** @return HasMany<CategoryField, $this> */
     public function childFields(): HasMany
     {
         return $this->hasMany(CategoryField::class, 'parent_field_id');
     }
 
+    /** @return HasMany<CategoryFieldOption, $this> */
     public function options(): HasMany
     {
         return $this->hasMany(CategoryFieldOption::class, 'category_field_id');
     }
 
+    /** @return HasMany<AdFieldValue, $this> */
     public function adFieldValues(): HasMany
     {
         return $this->hasMany(AdFieldValue::class, 'category_field_id');

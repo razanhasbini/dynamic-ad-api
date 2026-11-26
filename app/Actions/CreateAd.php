@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class CreateAd
 {
+    /** @param  array<string, mixed>  $data  validated StoreAdRequest input */
     public function execute(User $user, array $data): Ad
     {
         return DB::transaction(function () use ($user, $data) {
             $ad = new Ad;
 
-            $ad->user_id = $user->id;
+            $ad->user()->associate($user);
             $ad->category_id = $data['category_id'];
             $ad->title = $data['title'];
             $ad->description = $data['description'];

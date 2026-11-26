@@ -27,21 +27,25 @@ class Category extends Model
         ];
     }
 
+    /** @return BelongsTo<Category, $this> */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    /** @return HasMany<Category, $this> */
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
+    /** @return HasMany<CategoryField, $this> */
     public function fields(): HasMany
     {
         return $this->hasMany(CategoryField::class, 'category_id');
     }
 
+    /** @return HasMany<Ad, $this> */
     public function ads(): HasMany
     {
         return $this->hasMany(Ad::class, 'category_id');

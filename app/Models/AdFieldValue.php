@@ -14,16 +14,19 @@ class AdFieldValue extends Model
         'value',
     ];
 
+    /** @return BelongsTo<Ad, $this> */
     public function ad(): BelongsTo
     {
         return $this->belongsTo(Ad::class, 'ad_id');
     }
 
+    /** @return BelongsTo<CategoryField, $this> */
     public function categoryField(): BelongsTo
     {
         return $this->belongsTo(CategoryField::class, 'category_field_id');
     }
 
+    /** @return BelongsTo<CategoryFieldOption, $this> */
     public function option(): BelongsTo
     {
         return $this->belongsTo(

@@ -22,16 +22,19 @@ class Ad extends Model
         ];
     }
 
+    /** @return BelongsTo<Category, $this> */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /** @return HasMany<AdFieldValue, $this> */
     public function fieldValues(): HasMany
     {
         return $this->hasMany(AdFieldValue::class, 'ad_id');

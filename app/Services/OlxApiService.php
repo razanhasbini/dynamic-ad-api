@@ -17,6 +17,7 @@ class OlxApiService
         $this->baseUrl = config('services.olx.base_url');
     }
 
+    /** @return array<mixed> */
     public function getCategories(): array
     {
         return Cache::remember(
@@ -34,6 +35,7 @@ class OlxApiService
         );
     }
 
+    /** @return array<mixed> */
     public function getCategoryFields(string $externalCategoryId): array
     {
         return Cache::remember(

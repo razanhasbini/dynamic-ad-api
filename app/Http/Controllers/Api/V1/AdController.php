@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdRequest;
 use App\Http\Resources\AdResource;
 use App\Models\Ad;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AdController extends Controller
@@ -14,7 +15,7 @@ class AdController extends Controller
     public function store(
         StoreAdRequest $request,
         CreateAd $createAd
-    ) {
+    ): JsonResponse {
         $ad = $createAd->execute(
             $request->user(),
             $request->validated()

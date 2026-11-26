@@ -10,6 +10,10 @@ use Illuminate\Database\Seeder;
 
 class OlxDataSeeder extends Seeder
 {
+    /**
+     * @param  array<mixed>  $categories
+     * @return array<mixed>
+     */
     private function flattenCategories(array $categories): array // I flattened the category tree first so every category can be processed the same way, regardless of how deeply it is nested in the OLX response.
     {
         $flattened = [];
@@ -28,6 +32,10 @@ class OlxDataSeeder extends Seeder
         return $flattened;
     }
 
+    /**
+     * @param  array<mixed>  $categoryFieldData
+     * @return array<mixed>
+     */
     private function getAllFields(array $categoryFieldData): array
     {
         $fields = [];
@@ -46,6 +54,10 @@ class OlxDataSeeder extends Seeder
         return array_values($fields);
     }
 
+    /**
+     * @param  array<mixed>  $fieldData
+     * @return array<mixed>
+     */
     private function getChoices(array $fieldData): array // I normalized the choices here because the OLX api does not always return them in the same shape; some fields contain flat choices while others are nested.
     {
         $choices = $fieldData['choices'] ?? [];
@@ -75,6 +87,10 @@ class OlxDataSeeder extends Seeder
         return $normalized;
     }
 
+    /**
+     * @param  array<mixed>  $fields
+     * @return array<mixed>|null
+     */
     private function findFieldByAttribute(array $fields, string $attribute): ?array
     {
         foreach ($fields as $field) {
@@ -86,6 +102,7 @@ class OlxDataSeeder extends Seeder
         return null;
     }
 
+    /** @param  array<mixed>  $categoryFieldData */
     private function saveFields(array $categoryFieldData): void
     {
         $fields = $this->getAllFields($categoryFieldData);
@@ -150,6 +167,7 @@ class OlxDataSeeder extends Seeder
         }
     }
 
+    /** @param  array<mixed>  $categoryFieldData */
     private function resolveFieldRelationships(array $categoryFieldData): void
     {
         $fields = $this->getAllFields($categoryFieldData);

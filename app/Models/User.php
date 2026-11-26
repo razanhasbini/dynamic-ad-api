@@ -30,6 +30,7 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
+    /** @return HasMany<Ad, $this> */
     public function ads(): HasMany
     {
         return $this->hasMany(Ad::class, 'user_id');
