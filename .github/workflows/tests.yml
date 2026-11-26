@@ -31,8 +31,16 @@ jobs:
         with:
           node-version: '22'
 
+      # .env.example targets PostgreSQL with no host, and this job starts no
+      # database. The test suite itself uses in-memory SQLite (phpunit.xml),
+      # so run the setup migration against a SQLite file as well.
       - name: Setup Application
-        run: composer setup
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/database.sqlite
+        run: |
+          touch database/database.sqlite
+          composer setup
 
       - name: Run CI Checks
         run: composer ci:check
